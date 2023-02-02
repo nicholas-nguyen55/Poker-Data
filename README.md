@@ -145,58 +145,128 @@ Methods of Analysis
 The main focus in this analysis is what is happening during each round in the game. 
 With the help of masterData1, first, the sum() function was used to see how many games finished at what round (i.e. sum(masterData1$winningRound == "flop"). The results from those sums were then use to calculate its percentage compared to the entire dataset (rounded to the 2nd decimal place)
 
-Round	Count	Percentage
+![image](https://user-images.githubusercontent.com/113401627/216462387-61dc5421-a01e-455a-9ab0-5a4e6f0f833e.png)
 
-hole	140	46.82%
-flop	47	15.72%
-turn	33	11.04%
-river	33	11.04%
-showdown	46	15.38%
 
 Out of the 299 games examined, almost half (49.82%) ended at the hole round.
 The next thing to examine is the amount called/raised/bet/returned in each round. To do this, sub-data frames were made from masterData2 by filtering data by its round column. The aggregate() function was used to calculate the min, mean, and max by each status type. 
 
-	Call
-	
-Round	mean	minimum	maximum
-hole	237.06	50	1100
-flop	453.73	100	1925
-turn	783.89	110	2650
-river	1003	0	6825
+![image](https://user-images.githubusercontent.com/113401627/216462427-209cf78b-0b85-4926-b604-70d0d5757fbd.png)
 
 Looking at the call data table’s maximum values, the highest call amount was done during the river round. The purpose of calling is to match a bet or raise and the table clearly shows that as such. The maximum average mean is $1003, which also happened during the river round.
 
-	Raise
-	
-Round	mean	minimum	maximum
-hole	471.04	200	10000
-flop	1043.22	450	1640
-turn	1956.25	1000	3800
-river	1587.50	500	3750
+![image](https://user-images.githubusercontent.com/113401627/216462506-e443dfeb-3bc5-4806-bedf-58b78574f0f0.png)
+
 
 In poker, raising the pot not only helps with increasing the pot size but also cuts the game short, if you raise high enough that the opponent gets scared and folds. Based on the table above, we can see that the maximum value raised was $10000, which is the total amount of money each player could have each game. 
 
-	Bet
-	
-Round	mean	minimum	maximum
-hole	NA	NA	NA
-flop	408.21	100	1925
-turn	719.05	100	3174
-river	1119.49	0	6825
+![image](https://user-images.githubusercontent.com/113401627/216462549-5ee58de4-36f8-4fe2-9b79-3e6ea49f8e1f.png)
+
 
 In the bet table, the entire hole round there are no values because there is no betting allowed in this round. Only the moves fold, raise, check and call are present in the round. Like the call data, the maximum bet amount happened during the river round. 
 In masterData1, the summary function was applied onto each pot round. For example, summary(masterData1$holePot) was used to get the data in the first row of the table below. 
 
-Round	minimum	1st Quartile	median	mean	3rd Quartile	maximum
-hole	0	225	350	653	575	13800
-flop	0	0	0	232.80	242.5	3850
-turn	0	0	0	246.30	0	5300
-river	0	0	0	421.70	0	13650
-total	100	250	500	1150	1000	21350
+![image](https://user-images.githubusercontent.com/113401627/216462598-3bc5f476-8f04-41ec-a0fb-20612f1de44e.png)
+
 
 Excluding the total pot, the highest maximum pot in each round is during the hole round at $13,800 while the river comes in second at $13,650. Also when looking at the rounds’ average values. We can see that the hole round has the highest average of $653 and the river round has the second highest of $421.70. From this, we can therefore conclude that the best round to win the most money is during the hole round. 
+
 Next, masterData2’s columns: pokerHand, holePot, flopPot, turnPot, riverPot, and totalPot were used as a sub-data frame for linear modeling, which will be used to test how the different types of moves affect the pot size. 
+
 The outcome variable or the dependent variable of the model will be totalPot while the predictors or independent variables of the model will be the different pot sizes per round: holePot, flopPot, turnPot, and riverPot.
+
 First, multiple bi-variate scatter plots were made for each  predictor vs the outcome variable.
 
+![image](https://user-images.githubusercontent.com/113401627/216462642-58f2409d-5c6c-4311-a411-eb119341cdd8.png)
+![image](https://user-images.githubusercontent.com/113401627/216462662-4660e433-2d84-4516-80ab-1806b5a580b3.png)
+
+When looking at the 2 plots: holePot vs totalPot and flopPot vs totalPot, there is no significant correlation.
+
+![image](https://user-images.githubusercontent.com/113401627/216462694-950bc15b-46b7-4db2-8191-aea602fec256.png)
+![image](https://user-images.githubusercontent.com/113401627/216462712-630dc0ae-33e4-473e-bcc9-25338d13ae63.png)
+
+When looking at the two plots: turnPlot vs totalPlot and riverPlot vs totalPot, there is a slight correlation between the 2. There is also a linear trend but it is very faint. 
+
+Linear modeling was then use to verify our observations. The lm() function was coded as follows: lm(formula = df9$totalPot ~ holePot + flopPot + turnPot + riverPot, data=df9) and stored into a variable multiReg. Then the summary() was run to see the model’s results.
+
+![image](https://user-images.githubusercontent.com/113401627/216462767-a95b0467-9ebf-42dd-b037-07cae9b74f23.png)
+
+
+The adjusted Rsquared is 0.9042, which tells us the results have a variance of 9042%. Based on the summary, the coefficients that are positively significant are as follows: holePot = 0.42, flopPot=1.07, turnPot = 0.73, riverPot = 0.95 and b intercept = 42.23. All the predictors are statistically significant based on their p-values being less then 0.05.  
+
+Conclusion	
+
+Based on our second analysis, the hole round is when most players won and surprisingly, it is also most ideal round to win money. This is when players should exhibit their best bluffing skills in order to win the most money. 
+
+For future studies, I recommend trying to apply associative rules with the two datasets: masterData1 and masterData2. It would be interesting to see the following: 
+●	relationship between the different cards dealt to players vs. the different poker moves (call/raise, etc.) 
+●	relationship between the different cards dealt to players vs. the money called/raised/bet per round
+
+
+One Dollar Comparison (Kaggle Data)
+
+Business Questions
+
+What was the percentage of players winning or losing a hand? Which card combinations given to players were the highest and lowest earning? How did players fare when they went all in?
+
+Cleaning and Organization
+
+For this data set there was not much that needed to be cleaned up, but some that needed to be changed. In areas where there was no data in, the original set put either ‘X’s’ or ‘--’. In order for everything to be the same and run the code easier, we changed all of the empty cells into ‘NA’. This helped out tremendously as we wanted to create multiple data frames in order to get a clearer idea of how player results turned out. I also had to turn the all-in data into binary 1 and 0. Originally they had True as going all in and False as not going all in. But I changed that to True = 1 and False = 0. 
+
+Next, we created a data frame to organize every single hand played and get the bet amounts that they made called Hands. The data frame includes the results of the hand played and the amount of chips they either won or lost. Following that we created a follow up data frame to include the actions that were taken from each player to see if they called, raised, checked or folded called Actions. This will give whoever views this data set an easier way to look at what each player did for each turn of a card. 
+
+![image](https://user-images.githubusercontent.com/113401627/216462972-e2054434-2588-407d-b2cb-2fb335207768.png)
+
+Hands (Kaggle DF1)
+
+![image](https://user-images.githubusercontent.com/113401627/216462991-cc1601bc-d69b-4b22-85a9-704a829c7d4c.png)
+
+Actions (Kaggle DF2) 
+
+The last data frames created for this data set were all aggregated. We wanted to do this in order to see how each individual card combination fared against each other. This combines all similar cards into 1 and we can get a complete result of how each card did. There are 2 sets of aggregate that would need to be done in order to get a sense of how the combination of cards did. One was to get the average of each card combination and how they fared, and the second was to get the sum balance of each card combination. With these new aggregated data frames, you can look up any card combination to see the average and total earnings. 
+
+![image](https://user-images.githubusercontent.com/113401627/216463050-3d436036-2ad9-4c6d-a094-ac1d06113a76.png)
+
+Average Aggregate (Kaggle DF3)
+
+![image](https://user-images.githubusercontent.com/113401627/216463076-980c7a91-f108-4b4d-811c-209f5615192f.png)
+
+Sum Aggregate (Kaggle DF4)
+
+After aggregating the results, we saw that there was data in the “cards” section that we did not want. In order to get the proper analysis we had to get rid of those combinations as follows. 
+
+![image](https://user-images.githubusercontent.com/113401627/216463122-edf5dff2-23b3-42f3-a606-6452fa7f7853.png)
+
+Analysis
+
+The first item we wanted to analyze within this data was the results of each hand and how many times those results happened. 
+
+![image](https://user-images.githubusercontent.com/113401627/216463180-6df05170-4183-4857-901d-78477be697d5.png)
+
+As you can see there were more times when a player lost overall (Gave Up, Lost) than actually taking any chips at the end of a round. 
+
+Next we wanted to see which card combinations were the best and worst to have. The first chart below shows which card combination averaged the lowest and highest earning chips PER HAND. Without surprise a pair of Kings average to be the best combination to start with for any player averaging 323.8 chips won if you got that hand. While surprising though is the lowest average hand being an Ace and 10 (T). With both cards considered to be high, I was surprised to see that this was the lowest average card combination. This could be a sign that while they do not have a pair to start, they have a strong hand but eventually lose out when other players start having better combinations as more cards are turned over. Also that players will continue to bluff with higher cards and no combinations rather than lower starting cards. 
+
+![image](https://user-images.githubusercontent.com/113401627/216463233-806d0c42-c76d-41ac-9550-1473efa8a860.png)
+
+We add the graph below as well to show the average amount of each card combination possible. The lowest cards that start with 2 are on the left and go all the way to the end on the right are cards that started with Kings or K. Along the Y-Axis balance refers to the amount a player on average won or lost with that card combination. The further along you go on the scatter plot you can see that the higher cards took on average more chips. With a better starting hand players can be more aggressive without having to hesitate about bluffing. 
+
+![image](https://user-images.githubusercontent.com/113401627/216463260-aa64a56d-557e-457b-a19a-ed4d81b6493a.png)
+
+Balance Scatter Plot 
+
+
+The following chart shows the lowest and highest combined TOTAL EARNINGS of card combinations. The lowest being a pair of 4s which could be surprising but also unsurprising at the same time. A pair being the one of the lowest winning combinations you can have, can result in not much happening if you decide to keep playing it. Thus resulting in some players losing at the end of the round going in with one of the lowest pairs at. But considering it is still a pair, it is somewhat surprising a non paired hand was not a lower earning than the pair of 4s. This could prove that players are unlikely to bluff and risk their chips with a lower starting hand. The highest earning is no surprise, similar to the average stated above a pair of kings is the highest earning card combination out of all combinations. 
+
+![image](https://user-images.githubusercontent.com/113401627/216463318-3c7c367c-1f12-402a-a629-d5ca605052be.png)
+
+The last analysis we wanted to look into was the All In data. How many times did players go all in and what were the results any time they did? Switching the data to binary for the all_in column is what made this process easier. We found that players only went all in 14,215 times which was only 13.8% of the hands played. 
+
+![image](https://user-images.githubusercontent.com/113401627/216463359-feb34976-91dc-45e8-9a83-57662943dc24.png)
+
+Conclusions
+
+Players who went all in more than likely came out on top combining Took Chips and Won, 71.3%. Going all-in is a high risk, high reward tactic. It can be considered a great bluff move if the player has nothing and wants to risk all of their chips to get the other player to fold. But if they are bluffing and their opponent calls them, their chances of winning are slim. 
+
+After doing a comparison analysis for our Kaggle dataset, we can conclude that having a higher starting hand that already has a combination to win was obviously the best start. Players did not need to bluff and can play a more aggressive style against their counterparts. Although having a great starting hand did not always mean they won, as you can see from the scatter plot that the higher starting hands also had some of the lowest balance. 
 
