@@ -140,5 +140,60 @@ Rows that contained the status “collected” meant the player had won the game
 
 Pluribus (dfWinner)
 
+Methods of Analysis
+
+The main focus in this analysis is what is happening during each round in the game. 
+With the help of masterData1, first, the sum() function was used to see how many games finished at what round (i.e. sum(masterData1$winningRound == "flop"). The results from those sums were then use to calculate its percentage compared to the entire dataset (rounded to the 2nd decimal place)
+
+Round	Count	Percentage
+
+hole	140	46.82%
+flop	47	15.72%
+turn	33	11.04%
+river	33	11.04%
+showdown	46	15.38%
+
+Out of the 299 games examined, almost half (49.82%) ended at the hole round.
+The next thing to examine is the amount called/raised/bet/returned in each round. To do this, sub-data frames were made from masterData2 by filtering data by its round column. The aggregate() function was used to calculate the min, mean, and max by each status type. 
+
+	Call
+Round	mean	minimum	maximum
+hole	237.06	50	1100
+flop	453.73	100	1925
+turn	783.89	110	2650
+river	1003	0	6825
+
+Looking at the call data table’s maximum values, the highest call amount was done during the river round. The purpose of calling is to match a bet or raise and the table clearly shows that as such. The maximum average mean is $1003, which also happened during the river round.
+
+	Raise
+Round	mean	minimum	maximum
+hole	471.04	200	10000
+flop	1043.22	450	1640
+turn	1956.25	1000	3800
+river	1587.50	500	3750
+
+In poker, raising the pot not only helps with increasing the pot size but also cuts the game short, if you raise high enough that the opponent gets scared and folds. Based on the table above, we can see that the maximum value raised was $10000, which is the total amount of money each player could have each game. 
+
+	Bet
+Round	mean	minimum	maximum
+hole	NA	NA	NA
+flop	408.21	100	1925
+turn	719.05	100	3174
+river	1119.49	0	6825
+
+In the bet table, the entire hole round there are no values because there is no betting allowed in this round. Only the moves fold, raise, check and call are present in the round. Like the call data, the maximum bet amount happened during the river round. 
+In masterData1, the summary function was applied onto each pot round. For example, summary(masterData1$holePot) was used to get the data in the first row of the table below. 
+
+Round	minimum	1st Quartile	median	mean	3rd Quartile	maximum
+hole	0	225	350	653	575	13800
+flop	0	0	0	232.80	242.5	3850
+turn	0	0	0	246.30	0	5300
+river	0	0	0	421.70	0	13650
+total	100	250	500	1150	1000	21350
+
+Excluding the total pot, the highest maximum pot in each round is during the hole round at $13,800 while the river comes in second at $13,650. Also when looking at the rounds’ average values. We can see that the hole round has the highest average of $653 and the river round has the second highest of $421.70. From this, we can therefore conclude that the best round to win the most money is during the hole round. 
+Next, masterData2’s columns: pokerHand, holePot, flopPot, turnPot, riverPot, and totalPot were used as a sub-data frame for linear modeling, which will be used to test how the different types of moves affect the pot size. 
+The outcome variable or the dependent variable of the model will be totalPot while the predictors or independent variables of the model will be the different pot sizes per round: holePot, flopPot, turnPot, and riverPot.
+First, multiple bi-variate scatter plots were made for each  predictor vs the outcome variable.
 
 
