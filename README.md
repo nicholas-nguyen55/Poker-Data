@@ -14,8 +14,8 @@ Data Dictionary
 ![image](https://user-images.githubusercontent.com/113401627/216461019-8cd1e350-e771-46a0-8667-588996232f5b.png)
 
 ●	Transformed Fields 
-Column
-Description
+
+Column Description
 
 Game
 id of the game
