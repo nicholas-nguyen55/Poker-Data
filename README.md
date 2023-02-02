@@ -118,22 +118,26 @@ As shown in the first analysis, the game data was sourced from multiple text fil
 The four text files were read by R and each line is stored into a dataframe called df. 
 
 ![image](https://user-images.githubusercontent.com/113401627/216461614-0b8d2555-ccb6-4a56-832a-1f72ed6024dc.png)
+
 Pluribus (df)
 
 Because each game had different outcomes, multiple data frames were needed to be made. So for the first read through of df in R, only lines that were constant in every game was stored in the dataframe, df2 with each row comprising of one poker hand, its table session, the player names for seat1-6, players who were smallBlind & bigBlind for that current game, the cards for all 6 players, and game’s total pot.
  
 ![image](https://user-images.githubusercontent.com/113401627/216461703-105f5637-149c-404e-9933-41d8b7e9dcc4.png)
 ![image](https://user-images.githubusercontent.com/113401627/216461715-ecc2d13d-89a0-486c-b96e-2012e0ab7ad7.png)
+
 Pluribus (df2)
 
 In order to include the historical data of each game, each line was then read by R and for each player move done in each round, it was stored into a dataframe called df3. 
 
 ![image](https://user-images.githubusercontent.com/113401627/216461826-c67751fe-22ba-468f-92b3-5fe09bc70e34.png)
+
 Pluribus (df3)
 
 Rows that contained the status “collected” meant the player had won the game and collected the pot so by filtering out the rows that contained the status “collected” in df3, another dataframe was made named dfWinner.
 
 ![image](https://user-images.githubusercontent.com/113401627/216461882-aef346e4-ec12-49fc-8b80-8dd79238476f.png)
+
 Pluribus (dfWinner)
 
 
