@@ -157,6 +157,7 @@ Out of the 299 games examined, almost half (49.82%) ended at the hole round.
 The next thing to examine is the amount called/raised/bet/returned in each round. To do this, sub-data frames were made from masterData2 by filtering data by its round column. The aggregate() function was used to calculate the min, mean, and max by each status type. 
 
 	Call
+	
 Round	mean	minimum	maximum
 hole	237.06	50	1100
 flop	453.73	100	1925
@@ -166,6 +167,7 @@ river	1003	0	6825
 Looking at the call data table’s maximum values, the highest call amount was done during the river round. The purpose of calling is to match a bet or raise and the table clearly shows that as such. The maximum average mean is $1003, which also happened during the river round.
 
 	Raise
+	
 Round	mean	minimum	maximum
 hole	471.04	200	10000
 flop	1043.22	450	1640
@@ -175,6 +177,7 @@ river	1587.50	500	3750
 In poker, raising the pot not only helps with increasing the pot size but also cuts the game short, if you raise high enough that the opponent gets scared and folds. Based on the table above, we can see that the maximum value raised was $10000, which is the total amount of money each player could have each game. 
 
 	Bet
+	
 Round	mean	minimum	maximum
 hole	NA	NA	NA
 flop	408.21	100	1925
