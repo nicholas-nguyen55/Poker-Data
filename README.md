@@ -89,6 +89,7 @@ Bluffing occurred more vs humans 62% of the time vs 27% of the time but equal se
 As for the flop data and pot analysis we concluded from the stats above, bluffing occurred less when a flop was shown as which leads to the notion that bluffing occurs more pre-flop (68%/45% of bluffs had a flop vs 71%/56% of non-bluffs had a flop). Pots were 61%/45% smaller on average during bluffing wins leading to increased pot size making players hesitant to bluff.
 
 Player Results (dataset 2)
+
 ![image](https://user-images.githubusercontent.com/113401627/216461473-68a33833-6089-4844-9433-13cb78461e31.png)
 ![image](https://user-images.githubusercontent.com/113401627/216461509-346ff916-df72-4f56-b567-3b1485c602da.png)
 
